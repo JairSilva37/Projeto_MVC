@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SalesWebMvc.Models;
 using SalesWebMvc.Services;
 
 namespace SalesWebMvc.Controllers
@@ -21,6 +22,20 @@ namespace SalesWebMvc.Controllers
         {
             var list = _sellerService.FindAll();
             return View(list);
+        }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        //post
+        [HttpPost]
+        [ValidateAntiForgeryToken]  //evita ataques do tipo CSRF
+        public ActionResult Create(Seller seller)
+        {
+            _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
